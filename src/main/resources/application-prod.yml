@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db.oqxlcyhghbstmclklwcf.supabase.co:5432/postgres?user=postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: yBEvpp4wUVv3JjUO
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: true
