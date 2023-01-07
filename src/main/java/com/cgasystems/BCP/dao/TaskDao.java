@@ -2,7 +2,6 @@ package com.cgasystems.BCP.dao;
 
 import com.cgasystems.BCP.model.Task;
 import com.cgasystems.BCP.model.TimeLog;
-import com.cgasystems.BCP.model.TimeUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,8 +10,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Time;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -29,10 +26,12 @@ public class TaskDao extends CommonDao{
 
     String addTask = "INSERT INTO TASK(TASK_ID,USER_ID,NAME,DETAILS,IS_COMPLETED,STATE,CURRENT_SPRINT,EXPECTED_COMPLETION_TIME, TYPE) " +
             "values (:taskId,:userId,:name,:details,false,'open',:currentSprint,:ect, :type)";
-    String getNextTaskId = "VALUES NEXT VALUE FOR TASK_ID_SEQ";
+    String getNextTaskId = "select nextval('TASK_ID_SEQ')";
+    //String getNextTaskIdH2 = "VALUES NEXT VALUE FOR TASK_ID_SEQ";
     //String getTaskId = "select TASK_ID_SEQ.NEXTVAL from dual";
     String addNewTimeLog="INSERT INTO TIME_LOG(TASK_ID,TIME_ID,START_TIME) VALUES (:taskId,:timeId,CURRENT_TIMESTAMP)";
-    String getNextTimeLogId = "VALUES NEXT VALUE FOR TIME_ID_SEQ";
+    String getNextTimeLogId = "select nextval('TIME_ID_SEQ')";
+    //String getNextTimeLogIdH2 = "VALUES NEXT VALUE FOR TIME_ID_SEQ";
     String getActiveTask = "SELECT TASK_ID FROM TASK WHERE STATE = 'active'";
     String closeCurrentTimeLog = "UPDATE TIME_LOG SET END_TIME = CURRENT_TIMESTAMP WHERE TASK_ID = :taskId and END_TIME is null";
     String deactivateTask = "UPDATE TASK SET STATE = 'open' WHERE TASK_ID = :taskId";
