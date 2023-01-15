@@ -3,10 +3,11 @@ package com.cgasystems.BCP.model;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 public class Task extends BaseModel{
     private long taskId;
-    private long userId;
+    private UUID userId;
     private String name;
     private String details;
     private boolean isCompleted;
@@ -33,11 +34,11 @@ public class Task extends BaseModel{
         this.taskId = taskId;
     }
 
-    public long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 

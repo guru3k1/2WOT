@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/timeuser")
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST})
@@ -25,7 +27,7 @@ public class TimeUserController {
     @ControllerLogger
     @Authorize
     @GetMapping("/getUser/{id}")
-    public TimeUser getUserById(@PathVariable(value = "id") Long id){
+    public TimeUser getUserById(@PathVariable(value = "id") UUID id){
         if(id != null){
             return timeUserService.getUserById(id);
         }else{

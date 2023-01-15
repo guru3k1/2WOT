@@ -32,13 +32,13 @@ public class TimeUserDao extends CommonDao{
 
     String getTimeLogsByTaskId= "SELECT TIME_ID, TASK_ID, START_TIME, END_TIME FROM TIME_LOG WHERE TASK_ID = :taskId ORDER BY TIME_ID";
 
-    String getUser = "SELECT TU.FIRST_NAME, TU.EMAIL,TU.LAST_NAME,TU.USER_ID," +
+    String getUser = "SELECT TU.EMAIL,TU.ID,TU.RAW_USER_META_DATA," +
             "TA.TASK_ID,TA.NAME,TA.DETAILS, TA.STATE,TA.CURRENT_SPRINT, TA.EXPECTED_COMPLETION_TIME,TA.IS_COMPLETED,TA.TYPE," +
             "TL.TIME_ID, TL.TASK_ID as TIME_TASK_ID, TL.START_TIME, TL.END_TIME " +
-            "FROM TIME_USER TU LEFT JOIN TASK TA on TU.USER_ID = TA.USER_ID " +
-            "LEFT JOIN TIME_LOG TL on TL.TASK_ID = TA.TASK_ID WHERE TU.USER_ID = :id";
+            "FROM AUTH.USERS TU LEFT JOIN TASK TA on TU.ID = TA.USER_ID " +
+            "LEFT JOIN TIME_LOG TL on TL.TASK_ID = TA.TASK_ID WHERE TU.ID = :id";
     //String getUser = "SELECT * FROM TIME_USER WHERE USER_ID = :id";
-    public TimeUser getUserById(Long id) {
+    public TimeUser getUserById(UUID id) {
         TimeUser user;
         try{
             user = namedParameterJdbcTemplate.query(getUser, Map.of("id",id),rs -> {
@@ -46,19 +46,18 @@ public class TimeUserDao extends CommonDao{
                 timeUserBean.setUserTasks(new HashSet<>());
                 Task currentTask = new Task();
                 Map<Long,Task> taskMap = new HashMap<>();
-
                 boolean firstBean = true;
                 while (rs.next()){
-                    timeUserBean.setFirstName(rs.getString("FIRST_NAME"));
+                    //timeUserBean.setFirstName(rs.getString("FIRST_NAME"));
                     timeUserBean.setEmail(rs.getString("EMAIL"));
-                    timeUserBean.setLastName(rs.getString("LAST_NAME"));
-                    timeUserBean.setUserId(rs.getLong("USER_ID"));
+                    //timeUserBean.setLastName(rs.getString("LAST_NAME"));
+                    timeUserBean.setUserId(UUID.fromString(rs.getString("ID")));
                     Task taskBean = new Task();
                     taskBean.setTaskId(rs.getLong("TASK_ID"));
                     taskBean.setName(rs.getString("NAME"));
                     taskBean.setDetails(rs.getString("DETAILS"));
                     taskBean.setState(rs.getString("STATE"));
-                    taskBean.setUserId(rs.getInt("USER_ID"));
+                    taskBean.setUserId(UUID.fromString(rs.getString("ID")));
                     taskBean.setCurrentSprint(rs.getString("CURRENT_SPRINT"));
                     taskBean.setExpectedCompletionTime(rs.getString("EXPECTED_COMPLETION_TIME"));
                     taskBean.setCompleted(rs.getBoolean("IS_COMPLETED"));
@@ -113,7 +112,7 @@ public class TimeUserDao extends CommonDao{
             bean.setFirstName(rs.getString("FIRST_NAME"));
             bean.setEmail(rs.getString("EMAIL"));
             bean.setLastName(rs.getString("LAST_NAME"));
-            bean.setUserId(rs.getLong("USER_ID"));
+            bean.setUserId(UUID.fromString(rs.getString("USER_ID")));
             return bean;
         };
     }

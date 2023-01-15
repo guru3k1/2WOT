@@ -42,7 +42,7 @@ public class TaskDao extends CommonDao{
     String updateTask = "UPDATE TASK SET NAME=:name, DETAILS=:details, CURRENT_SPRINT=:currentSprint," +
             "EXPECTED_COMPLETION_TIME=:ect, TYPE=:type WHERE TASK_ID=:taskId AND USER_ID=:userId";
 
-    String closeTask = "UPDATE TASK SET IS_COMPLETED=1 WHERE TASK_ID=:taskId AND USER_ID=:userId";
+    String closeTask = "UPDATE TASK SET IS_COMPLETED= WHERE TASK_ID=:taskId AND USER_ID=:userId";
 
     public Integer addTask(Task task){
         int id = 0;
@@ -128,7 +128,7 @@ public class TaskDao extends CommonDao{
             taskBean.setName(rs.getString("NAME"));
             taskBean.setDetails(rs.getString("DETAILS"));
             taskBean.setState(rs.getString("STATE"));
-            taskBean.setUserId(rs.getInt("USER_ID"));
+            taskBean.setUserId(UUID.fromString(rs.getString("USER_ID")));
             taskBean.setCurrentSprint(rs.getString("CURRENT_SPRINT"));
             taskBean.setExpectedCompletionTime(rs.getString("EXPECTED_COMPLETION_TIME"));
             taskBean.setCompleted(rs.getBoolean("IS_COMPLETED"));

@@ -8,6 +8,7 @@ import com.cgasystems.BCP.model.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Service
@@ -18,7 +19,7 @@ public class TimeUserService {
         this.timeUserDao = timeUserDao;
     }
 
-    public TimeUser getUserById(long id) {
+    public TimeUser getUserById(UUID id) {
         return timeUserDao.getUserById(id);
     }
 }

@@ -1,20 +1,21 @@
 package com.cgasystems.BCP.model;
 
 import java.util.Set;
+import java.util.UUID;
 
 public class TimeUser extends BaseModel{
 
-    private long userId;
+    private UUID userId;
     private String firstName;
     private String lastName;
     private String email;
     private Set<Task> userTasks;
 
-    public long getUserId() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(UUID userId) {
         this.userId = userId;
     }
 
